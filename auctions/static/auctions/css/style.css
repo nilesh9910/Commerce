@@ -1,0 +1,29 @@
+body {
+    background-color: #e1dfdf33;
+}
+
+.card {
+    width: 50%;
+    margin: auto;
+    padding: 50px;
+    margin-top: 100px;
+    max-width: 640px;
+    box-shadow: -5px 5px 10px 1px #dfdfdf;
+    border-radius: 10px;
+}
+#loginhd {
+    margin-bottom: 25px;
+    text-align: center;
+}
+button[type=submit] {
+    padding: 10px 20px 10px 20px ;
+}
+
+
+
+@media only screen and (max-width: 1080px) {
+    .card {
+    width: 100%;
+    }
+  }
+ 
