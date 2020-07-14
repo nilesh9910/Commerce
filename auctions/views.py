@@ -6,13 +6,14 @@ from django.urls import reverse
 from .models import AuctionList
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Max
+from django.contrib.auth.decorators import login_required
 
 from .models import User, Category, Bid
 from .forms import AuctionForm, BidForm
 
 
 def index(request):
-    a_list = AuctionList.objects.annotate(max_price=Max('bid__price'))
+    a_list = AuctionList.objects.filter(active=True).annotate(max_price=Max('bid__price'))
     context = {
         "a_list": a_list
     }
@@ -70,6 +71,7 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
+@login_required(login_url='login')
 def createAuction(request):
     if request.method == 'POST':
         form = AuctionForm(request.POST, request.FILES)
@@ -95,12 +97,15 @@ def auction_view(request, id):
         auc = AuctionList.objects.get(pk=id)
     except ObjectDoesNotExist:
         raise Http404("Requested Auction is not Found")
+    in_watchlist = False
     bids = auc.bid_set.all().order_by('-price')
     category = Category(auc.category).label
     max_bid = auc.bid_set.all().aggregate(Max('price'))
     if request.method =='POST':
+        if auc in request.user.watchlist.all():
+            in_watchlist = True
         form = BidForm(request.POST)
-        context = {'form': form, 'auc': auc, 'Category': category, "Bids": bids, "max_bid": max_bid['price__max']}
+        context = {'form': form, 'auc': auc, 'Category': category, "Bids": bids, "max_bid": max_bid['price__max'], "in_watchlist": in_watchlist}
         if form.is_valid():
             bid_price = form.cleaned_data.get('bid_price')
             if max_bid['price__max']:
@@ -117,9 +122,15 @@ def auction_view(request, id):
         if request.user.is_authenticated and request.user.id==auc.user.id:
             auc.active=False
             auc.save()
+    if request.GET.get('q') and request.GET['q']=='addtowatchlist':
+        if request.user.is_authenticated:
+            request.user.watchlist.add(auc)
     form = BidForm()
     max_bid = auc.bid_set.all().aggregate(Max('price'))
-    context = {'form': form, 'auc': auc, 'Category': category, "Bids": bids, "max_bid": max_bid['price__max']}
+    if request.user.is_authenticated:
+        if auc in request.user.watchlist.all():
+            in_watchlist = True
+    context = {'form': form, 'auc': auc, 'Category': category, "Bids": bids, "max_bid": max_bid['price__max'], "in_watchlist": in_watchlist}
     return render(request, 'auctions/auctionview.html', context)
 
 def categories(request):
@@ -131,9 +142,17 @@ def categories(request):
 def category_view(request, category):
     if category not in Category.labels:
         raise Http404("There is no category of such type")
-    items = AuctionList.objects.filter(category=Category[category.upper()].value)
+    items = AuctionList.objects.filter(category=Category[category.upper()].value).annotate(max_price=Max('bid__price'))
     context = {
         "items": items,
         "category": category
     }
     return render(request, 'auctions/categoryview.html', context)
+
+@login_required(login_url='login')
+def watchlist_view(request):
+    w_list = request.user.watchlist.annotate(max_price=Max('bid__price'))
+    context = {
+        "w_list": w_list
+    }
+    return render(request, 'auctions/watchlist.html', context)

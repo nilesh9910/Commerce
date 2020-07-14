@@ -1,8 +1,210 @@
 body {
-    padding: 10px;
+    padding: 0px;
+    background-color: rgb(247, 247, 247);
 }
+
+.navbar {
+    background: linear-gradient(90deg, rgb(53, 111, 219), rgb(30, 116, 245), rgb(20, 75, 224));
+    border-top: 5px solid rgb(233, 33, 26);
+    color: rgba(255, 255, 255, 0.685);
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.13);
+    z-index: 999;
+}
+
+.navbar h1,.web-title {
+    display: block;
+    text-align: center;
+    width: 100%;
+    text-shadow: 0 1px rgb(233, 33, 26);
+    font-size: 38px;
+    color: rgba(255, 255, 255, 0.938);
+    letter-spacing: -0.2rem;
+    cursor: pointer;
+}
+
+.navbar .nav-item {
+    padding: 0 calc(1rem - 2px) ;
+}
+
+.navbar .nav-link {
+    color: rgba(255, 255, 255, 0.685);
+    border-bottom: 2px solid transparent;
+    padding: .5rem 2px;
+}
+
+.navbar .nav .nav-link {
+    position: relative;
+}
+
+.nav a:hover:before, .nav li:hover > a:before {
+    visibility: visible;
+    width: 100%;
+  }
+  
+
+.nav > li > a:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 3px;
+    bottom: 0;
+    left: 0;
+    background-color: #db4141;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out 0s;
+  }
+  
+
+.navbar .nav-link:hover {
+    color: white;
+}
+
+.account {
+    position: relative;
+}
+
+.account strong {
+    border: 2px solid #db4141;
+    border-radius: 1px;
+    color: white;
+    transition: background-color ease-in 0.3s;
+    cursor: pointer;
+    padding: 5px 15px;
+}
+
+.account .account-drop {
+    position: absolute;
+    margin-top: 7px;
+    border-radius: 5px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.082);
+    text-align: center;
+    border: 1px solid #ccc;
+    background-color: white;
+    color: rgb(27, 27, 27);
+    display: none;
+    left: 0;
+    min-width: 160px;
+    z-index: 9999;
+    padding: .5rem .5rem;
+}
+
+.account:hover .account-drop {
+    display: block;
+}
+
+.account .account-drop p {
+    font-size: 14px;
+    margin-bottom: 4px;
+
+}
+
+.btn-logging {
+    padding: 4px 15px;
+    color: white !important;
+    background-color: #1850c7;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 2px;
+    text-decoration: none !important;
+}
+
+.account strong:hover {
+    background-color: #db4141;
+}
+
+.title-page {
+    padding-top: 7rem;
+    padding-left: 10%;
+}
+
+.login-card {
+    background-color: white;
+    border: 1px solid #bbbbbb;
+    border-radius: 10px;
+    margin-top: 4rem;
+    box-shadow: 0 7px 18px 0 rgba(0, 0, 0, 0.151);
+}
+
+.login-card .col-md-8 {
+    padding: 1rem 3rem;
+}
+
+.login-card hr {
+    padding-bottom: 1rem;
+    border-top: 4px solid rgb(15, 120, 197);
+    width: 9%;
+}
+
+.login-card .signup {
+    padding: 0 3rem;
+    text-align: center;
+    color: white;
+}
+
+.login-card h2 {
+    color: rgb(15, 120, 197);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 700;
+    font-size: 37px;
+    text-align: center;
+}
+.login-card .col-md-4 {
+    background: linear-gradient(180deg, rgb(12, 153, 202), rgb(12, 138, 202) ,rgb(14, 120, 201));
+    border-radius: 0 10px 10px 0;
+}
+
+.login-card .signup-btn {
+    border: 1px solid white;
+    padding: 7px 20px;
+    color: white;
+    transition: background-color ease-in 0.2s;
+    border-radius: 50px;
+    text-decoration: none !important;
+}
+
+.login-card .form-control {
+    border: 2px solid rgb(34, 111, 212);
+    border-radius: 50px;
+    color: rgb(78, 78, 78);
+}
+
+.login-card .form-control:focus {
+    box-shadow: 0 2px 4px 0 rgba(19, 70, 209, 0.212);
+}
+
+.login-card .signup-btn:hover {
+    color: rgb(14, 120, 201);
+    background-color: white;
+}
+
+.login-card .login-btn {
+    background-color: rgb(45, 97, 238);
+    color: white !important;
+    text-decoration: none !important;
+    padding: 5px 40px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 1px;
+    margin-bottom: 2rem;
+    transition: background-color ease-in 0.3s;
+    border: none;
+}
+
+.login-card .login-btn:hover {
+    background-color: rgb(29, 81, 223);
+}
+
+.card {
+    border-radius: 1px;
+    padding: 0;
+}
+
 .card-img {
-    width: 500px;
+    width: 100%;
     max-height: 250px;
     object-fit: scale-down;
     padding: 4px;

@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.utils.timezone import now
+
 
 class User(AbstractUser):
     pass
@@ -20,8 +22,9 @@ class AuctionList(models.Model):
     category = models.CharField(max_length=2, choices=Category.choices, default=Category.OTHER)
     active = models.BooleanField(null=False, default=True)
     start_bid = models.DecimalField(max_digits=10, decimal_places=2)
-    #auc_comments = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name="accmmt",blank=True ,null=True)
-    user = models.ForeignKey(User,on_delete=models.CASCADE, blank=True, null=True)
+    date_created = models.DateTimeField(default=now)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    watchlist = models.ManyToManyField(User, blank=True, related_name="watchlist")
     def __str__(self):
         return f"{self.title} - {self.category}"
 
@@ -38,7 +41,6 @@ class Bid(models.Model):
     auction = models.ForeignKey(AuctionList, blank=True, null=True, on_delete=models.CASCADE)
     def __str__(self):
         return f"${self.price}"
-
     """auction = models.ForeignKey(AuctionList, models.CASCADE, related_name="auc", null=True, blank=True)
     bid = models.ForeignKey(Bid, on_delete=models.CASCADE, related_name="ubid", null=True, blank=True)
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name="cmmt", null=True, blank=True)"""

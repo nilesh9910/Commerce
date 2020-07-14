@@ -2,7 +2,7 @@
 {% block body %}
 <form action="{% url 'crtauction' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form }}
+    {{ form.as_p }}
     {% if error %}
     {% endif %}
     <button type="submit" class="btn btn-primary">Create</button>

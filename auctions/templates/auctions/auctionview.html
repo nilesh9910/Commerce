@@ -2,7 +2,9 @@
 {% block body %}
     <h2>Listing: {{ auc.title }}</h2>
     {% if user.is_authenticated %}
-        <button type="button" class="btn btn-light">Add to WishList</button>
+        <form action="{% url 'aucview' auc.id %}" method="GET">
+        <button type="submit" name="q" value="addtowatchlist" class="btn btn-light"{% if in_watchlist %} disabled>Added to WatchList {% else %}>Add to WatchList {% endif %}</button>
+        </form>
     {% endif %}
     <div class="img-box">
         <img src="{{ auc.image.url }}" class="big-image">
@@ -18,7 +20,7 @@
     {% endif %}
     {% if user.id == auc.user.id %}
         <form action="{% url 'aucview' auc.id %}" method="GET">
-        <button type="submit" class="btn btn-secondary" name="active"{% if auc.active is False %} disabled{% endif %} value="False">close bid</button>
+        <button type="submit" class="btn btn-secondary" name="active"{% if auc.active is False %} disabled{% endif %} value="False">Close Bid</button>
         </form>
     {% elif user.is_authenticated and auc.active %}
         <form action="{% url 'aucview' auc.id %}" method='POST'>

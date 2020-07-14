@@ -8,21 +8,20 @@
         <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
     </head>
     <body>
+        <nav class="navbar">
+            <div class="container">
         <h1>Auctions</h1>
-        <div>
-            {% if user.is_authenticated %}
-                Signed in as <strong>{{ user.username }}</strong>.
-            {% else %}
-                Not signed in.
-            {% endif %}
-        </div>
-        <ul class="nav">
+        
+        <ul class="nav mx-auto">
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
             </li>
             {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'categories' %}">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'watchlist' %}">Watchlist</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'crtauction' %}">Create Listing</a>
@@ -39,8 +38,23 @@
                 </li>
             {% endif %}
         </ul>
-        <hr>
+        <div class="">
+            {% if user.is_authenticated %}
+            <div class="account">
+                <strong>{{ user.username }}</strong>
+                <div class="account-drop">
+                    <p>Signed in as <b>{{ user.username }}</b></p>
+                    <a class="btn-logging d-block" href="{% url 'logout' %}">Log Out</a>
+                </div>
+                </div>
+            {% else %}
+            <a class="btn-logging" href="{% url 'login' %}">Log In</a>
+            {% endif %}
+        </nav>
+        
+<div class="container">
         {% block body %}
         {% endblock %}
+</div>
     </body>
 </html>
