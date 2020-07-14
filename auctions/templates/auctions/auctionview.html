@@ -1,43 +1,43 @@
 {% extends 'auctions/layout.html' %}
 {% block body %}
-<h2>Listing: {{ auc.title }}</h2>
-{% if user.is_authenticated %}
-<button type="button" class="btn btn-light">Add to WishList</button>
-{% endif %}
-<div class="img-box">
-<img src="{{ auc.image.url }}" class="big-image">
-</div>
-<p>{{ auc.description }}</p>
-<h2> ${% if max_bid %}{{ max_bid }}{% else %}{{ auc.start_bid }}{% endif%} </h2>
-{% if auc.active is False %}
-{% if request.user.id == Bids.first.user.id%}
-<p>You won this auction at {{ Bids.first }}</p>
-{% else %}
-<p>{{ Bids.first.user }} won this auction at {{ Bids.first }}</p>
-{% endif %}
-{% endif %}
-{% if user.id == auc.user.id %}
-<form action="{% url 'aucview' auc.id %}" method="GET">
-click here to <button type="submit" class="btn btn-secondary" name="active"{% if auc.active is False %} disabled{% endif %} value="False">close bid</button> -- {{ auc.active }}
-</form>
-{% elif user.is_authenticated and auc.active %}
-<form action="{% url 'aucview' auc.id %}" method='POST'>
-{% csrf_token %}
-{{ form }}
-<p>{{ error }}</p>
-<button class="btn btn-primary" type="submit">Place Bid</button>
-</form>
-{% endif %}
-<h3>Bids</h3>
-<ul>
-{% for bid in Bids %}
-    <li>{{ bid.user }} - {{ bid }}</li>
-{% endfor %}
-</ul>
-<h3>Details</h3>
-<ul>
-    <li>Listed by: {{ auc.user.username}}</li>
-    <li>Category: {{ Category }}</li>
-    <li>Starting Bid: ${{ auc.start_bid }}
-</ul>
+    <h2>Listing: {{ auc.title }}</h2>
+    {% if user.is_authenticated %}
+        <button type="button" class="btn btn-light">Add to WishList</button>
+    {% endif %}
+    <div class="img-box">
+        <img src="{{ auc.image.url }}" class="big-image">
+    </div>
+    <p>{{ auc.description }}</p>
+    <h2> ${% if max_bid %}{{ max_bid }}{% else %}{{ auc.start_bid }}{% endif%} </h2>
+    {% if auc.active is False %}
+        {% if request.user.id == Bids.first.user.id%}
+            <p>You won this auction at {{ Bids.first }}</p>
+        {% else %}
+            <p>{{ Bids.first.user }} won this auction at {{ Bids.first }}</p>
+        {% endif %}
+    {% endif %}
+    {% if user.id == auc.user.id %}
+        <form action="{% url 'aucview' auc.id %}" method="GET">
+        <button type="submit" class="btn btn-secondary" name="active"{% if auc.active is False %} disabled{% endif %} value="False">close bid</button>
+        </form>
+    {% elif user.is_authenticated and auc.active %}
+        <form action="{% url 'aucview' auc.id %}" method='POST'>
+            {% csrf_token %}
+        {{ form }}
+        <p>{{ error }}</p>
+        <button class="btn btn-primary" type="submit">Place Bid</button>
+        </form>
+    {% endif %}
+    <h3>Bids</h3>
+    <ul class="list-group">
+        {% for bid in Bids %}
+            <li class="list-group-item">{{ bid.user }} - {{ bid }}</li>
+        {% endfor %}
+    </ul>
+    <h3>Details</h3>
+    <ul class="list-group">
+        <li class="list-group-item">Listed by: {{ auc.user.username}}</li>
+        <li class="list-group-item">Category: {{ Category }}</li>
+        <li class="list-group-item">Starting Bid: ${{ auc.start_bid }}
+    </ul>
 {% endblock %}

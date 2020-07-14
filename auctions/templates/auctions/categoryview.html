@@ -1,0 +1,27 @@
+{% extends 'auctions/layout.html'%}
+{% block title %} {{ category }} {% endblock %}
+{% block body %}
+<h2>{{ category }}</h2>
+{% for a in items %}
+    <a href="{% url 'aucview' a.id %}" class="card-link">
+        <div class="card mb-3" style="height:250px;">
+            <div class="row no-gutters">
+              <div class="col-md-4">
+                <img src="{{ a.image.url }}" class="card-img" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">{{ a.title }}</h5>
+                  <p class="card-text"><b>Price</b>: ${% if a.max_price %}{{ a.max_price }}{% else %}{{ a.start_bid }}{% endif %}</p>
+                  <p class="card-text">{{ a.description }}</p>
+                  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+              </div>
+            </div>
+          </div>
+    </a>
+{% empty %}
+    <p>No auctions for {{ category }}</p>
+{% endfor %}
+
+{% endblock %}

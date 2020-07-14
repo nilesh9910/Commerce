@@ -123,4 +123,17 @@ def auction_view(request, id):
     return render(request, 'auctions/auctionview.html', context)
 
 def categories(request):
-    return render(request, 'auctions/category.html')
+    context = {
+        "categorieslabel": Category.labels
+    }
+    return render(request, 'auctions/category.html', context)
+
+def category_view(request, category):
+    if category not in Category.labels:
+        raise Http404("There is no category of such type")
+    items = AuctionList.objects.filter(category=Category[category.upper()].value)
+    context = {
+        "items": items,
+        "category": category
+    }
+    return render(request, 'auctions/categoryview.html', context)
