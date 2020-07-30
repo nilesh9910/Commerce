@@ -3,7 +3,7 @@
     <h2>Listing: {{ auc.title }}</h2>
     {% if user.is_authenticated %}
         <form action="{% url 'aucview' auc.id %}" method="GET">
-        <button type="submit" name="q" value="addtowatchlist" class="btn btn-light"{% if in_watchlist %} disabled>Added to WatchList {% else %}>Add to WatchList {% endif %}</button>
+        <button type="submit" name="q" value="addtowatchlist" class="btn btn-outline-dark"{% if in_watchlist %} disabled>Added to WatchList {% else %}>Add to WatchList {% endif %}</button>
         </form>
     {% endif %}
     <div class="img-box">
